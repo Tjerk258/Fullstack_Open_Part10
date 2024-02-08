@@ -1,10 +1,11 @@
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+
 import FormikTextInput from './FormikTextInput';
-import Text from './Text';
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Formik } from 'formik';
 import Button from './Button';
 import * as yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
+import { useNavigate } from 'react-router-native';
 
 const initialValues = {
   username: '',
@@ -34,19 +35,35 @@ const SignInFrom = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
       <FormikTextInput style={styles.textInput} name="username" placeholder="Username" />
-      <View style={styles.spacing}/>
+      <View style={styles.spacing} />
       <FormikTextInput style={styles.textInput} secureTextEntry name="password" placeholder="Password" />
-      <View style={styles.spacing}/>
+      <View style={styles.spacing} />
 
-      <Button onPress={onSubmit} label='Sign In'/>
+      <Button onPress={onSubmit} label='Sign In' />
     </View>
   )
 }
 
-const SignIn = ({ onSubmit }) => {
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  const navigate = useNavigate()
+  // const authenticate = new AuthStorage()
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+    console.log(values, username, password)
+
+    try {
+      const { data } = await signIn({ username, password });
+      navigate('/')
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      {({handleSubmit}) => <SignInFrom onSubmit={handleSubmit}/>}
+      {({ handleSubmit }) => <SignInFrom onSubmit={handleSubmit} />}
     </Formik>
   );
 };

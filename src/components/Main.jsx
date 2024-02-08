@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import theme from '../theme';
 import { Navigate, Route, Routes } from 'react-router-native';
 import SignIn from './SignIn';
+import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  console.log(Constants.manifest)
   useEffect(() => {
     // Set status bar style to have white icons
     StatusBar.setBarStyle('light-content');

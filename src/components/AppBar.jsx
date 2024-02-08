@@ -3,6 +3,10 @@ import Constants from 'expo-constants';
 import Text from './Text';
 import theme from '../theme';
 import { Link } from 'react-router-native';
+import { useQuery } from '@apollo/client';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import useSignOut from '../hooks/useSignOut';
+import { ME } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,11 +29,21 @@ const AppBarTab = (props) => {
 }
 
 const AppBar = () => {
+  const signOut = useSignOut();
+  const { data } = useQuery(ME, {
+    fetchPolicy: 'cache-and-network'
+  });
+
+  console.log(data);
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab label='Repositories' link='/' />
-        <AppBarTab label='Sign In' link='/SignIn' />
+        {data.me ?
+          <Pressable onPress={() => signOut()}><Text style={styles.text} fontSize='subheading' >Sign Out</Text></Pressable>
+          :
+          <AppBarTab label='Sign In' link='/SignIn' />}
       </ScrollView>
     </View>
   );
