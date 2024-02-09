@@ -30,4 +30,27 @@ const FormikTextInput = ({ name, ...props }) => {
   );
 };
 
+export const FormikNumberInput = ({ name, ...props }) => {
+  const [field, meta, helpers] = useField(name);
+  const showError = meta.touched && meta.error;
+
+  const onChangeText = (value) => {
+    const numericInput = value.replace(/[^0-9]/g, '');
+    helpers.setValue(numericInput);
+  }
+
+  return (
+    <>
+      <TextInput
+        onChangeText={onChangeText}
+        onBlur={() => helpers.setTouched(true)}
+        value={field.value}
+        error={showError}
+        {...props}
+      />
+      {showError && <Text style={styles.errorText}>{meta.error}</Text>}
+    </>
+  );
+};
+
 export default FormikTextInput;

@@ -1,11 +1,14 @@
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
-import { useEffect } from 'react';
 import theme from '../theme';
 import { Navigate, Route, Routes } from 'react-router-native';
 import SignIn from './SignIn';
 import Constants from 'expo-constants';
+import SingleRepository from './SingleRepository';
+import CreateReview from './CreateReview';
+import SignUp from './SignUp';
+import MyReviews from './MyReviews';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,10 +20,6 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   console.log(Constants.manifest)
-  useEffect(() => {
-    // Set status bar style to have white icons
-    StatusBar.setBarStyle('light-content');
-  }, []);
 
   const onSubmit = (values) => {
     console.log(values);
@@ -32,6 +31,10 @@ const Main = () => {
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signIn" element={<SignIn onSubmit={onSubmit}/>} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/repository/:id" element={<SingleRepository/>}/>
+        <Route path="/createreview" element={<CreateReview/>}/>
+        <Route path="/SignUp" element={<SignUp/>} />
+        <Route path="/myreviews" element={<MyReviews/>} />
       </Routes>
     </View>
   );

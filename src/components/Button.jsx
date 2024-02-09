@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 const Button = ({label, style, onPress, ...props }) => {
-  const textInputStyle = [style, styles.Button];
+  const textInputStyle = [styles.Button, style];
 
   return <Pressable onPress={onPress} style={textInputStyle} {...props} ><Text style={styles.Text}>{label}</Text></Pressable>;
 };

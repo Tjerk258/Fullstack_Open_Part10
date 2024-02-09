@@ -31,19 +31,26 @@ const AppBarTab = (props) => {
 const AppBar = () => {
   const signOut = useSignOut();
   const { data } = useQuery(ME, {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-and-network',
   });
-
-  console.log(data);
 
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab label='Repositories' link='/' />
-        {data.me ?
-          <Pressable onPress={() => signOut()}><Text style={styles.text} fontSize='subheading' >Sign Out</Text></Pressable>
+
+        {data?.me ?
+          <>
+            <AppBarTab label='Create a review' link='/createreview' />
+            <AppBarTab label='My reviews' link='/myreviews' />
+            <Pressable onPress={() => signOut()}><Text style={styles.text} fontSize='subheading' >Sign Out</Text></Pressable>
+          </>
           :
-          <AppBarTab label='Sign In' link='/SignIn' />}
+          <>
+            <AppBarTab label='Sign In' link='/SignIn' />
+            <AppBarTab label='Sign Up' link='/SignUp' />
+          </>
+        }
       </ScrollView>
     </View>
   );

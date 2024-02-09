@@ -16,9 +16,9 @@ const useSignIn = () => {
         }
       }
     })
-    console.log(data);
     await authStorage.setAccessToken(data.authenticate.accessToken)
     result.reset();
+    console.log(data);
     await appolloClient.resetStore();
     return data;
   };
